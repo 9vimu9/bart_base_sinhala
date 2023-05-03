@@ -20,6 +20,8 @@ https://huggingface.co/models?filter=bart
 """
 # You can also adapt this script on your own denoising language modeling task. Pointers for this are left as comments.
 
+TOKENIZED_DATASET_DIR_PATH = ''
+
 import json
 import logging
 import math
@@ -676,7 +678,8 @@ def main():
         num_proc=data_args.preprocessing_num_workers,
         load_from_cache_file=not data_args.overwrite_cache,
     )
-
+    # load tokenized_datasets from disk
+    tokenized_datasets = tokenized_datasets.load_from_disk(TOKENIZED_DATASET_DIR_PATH)
     # Enable tensorboard only on the master node
     has_tensorboard = is_tensorboard_available()
     if has_tensorboard and jax.process_index() == 0:
